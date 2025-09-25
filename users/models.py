@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from datetime import date
 
+import uuid
+
 
 class User(AbstractUser):
     email = models.EmailField(_('email address'), unique = True)
