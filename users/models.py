@@ -20,8 +20,9 @@ class User(AbstractUser):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.CharField(max_length=200, blank=True, null=True)
-    user_image = models.ImageField()
+    user_image = models.ImageField(blank=True, null=True, upload_to='user_images/')
     created_at = models.DateField(auto_now_add=True)
+    username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     # following = models.ManyToManyField(
     #     'self', 
     #     symmetrical=False, 
@@ -32,7 +33,7 @@ class UserProfile(models.Model):
 
 class EventOrganiserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="organizerprofile")
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, blank=True, null=True)
     bio = models.CharField(max_length=200, blank=True, null=True)
     logo =  models.ImageField(upload_to='organizer_logos/', blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)

@@ -9,7 +9,12 @@ from django.db import IntegrityError
 def home(request):
     User = request.user
     if not User.is_authenticated:
-        return redirect('login')
+        return redirect('users:login')
+    if User.role == "user":
+        return redirect('mainusers:user_dashboard')
+    elif User.role == "organiser":
+        return redirect('event_dashboard')
+
     return render(request, 'users/home.html', {'user': User})
 
 
@@ -19,7 +24,7 @@ def login(request):
         if form.is_valid():
             # Log the user in
             auth_login(request, form.get_user())
-            return redirect('home')  
+            return redirect('users:home')  
         
     else:
         form = LoginForm()
@@ -34,7 +39,7 @@ def register(request):
             try:
                 user = form.save()
                 print(f"User created successfully: {user.email}")
-                return redirect('login')
+                return redirect('users:login')
             except IntegrityError as e:
                 print(f"Database error: {e}")
                 form.add_error('email', 'A user with this email already exists.')

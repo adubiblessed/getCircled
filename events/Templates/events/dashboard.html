@@ -1,0 +1,13 @@
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js"></script>
+
+<h1> Organiser</h1>
+
+
+<p> testing Htmx </p>
+
+
+<div id="event-list" hx-get="{% url 'events:load_events' %}" hx-trigger="load">
+    Loading events...
+</div>
+
+<a href="{% url 'events:create_event' %}">Create New Event</a>
