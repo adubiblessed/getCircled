@@ -27,7 +27,7 @@ class UserQRCode(models.Model):
     qr_code_image = models.ImageField(upload_to='user_qr_codes/')
 
     def __str__(self):
-        return f"QR Code for {self.user.name}"
+        return f"QR Code for {self.user.username}"
 
 
 class EventEnrollment(models.Model):
