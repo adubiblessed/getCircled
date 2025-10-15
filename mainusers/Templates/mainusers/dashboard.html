@@ -1,1 +1,10 @@
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js"></script>
+
 <h1> user</h1>
+
+<div id="announcement-list" hx-get="{% url 'mainusers:load_anouncement' %}" hx-trigger="every 1s">
+    Loading events...
+</div> 
+
+
+{% comment %} {% include 'mainusers/partials/annoucement.html' with announcement=announcements %} {% endcomment %}

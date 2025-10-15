@@ -6,8 +6,8 @@
 <p> testing Htmx </p>
 
 
-<div id="event-list" hx-get="{% url 'events:load_events' %}" hx-trigger="load">
+{% comment %} <div id="event-list" hx-get="{% url 'events:load_events' %}" hx-trigger="load">
     Loading events...
-</div>
+</div> {% endcomment %}
 
 <a href="{% url 'events:create_event' %}">Create New Event</a>

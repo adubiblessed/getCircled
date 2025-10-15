@@ -20,11 +20,11 @@ class UserSocialMedia(models.Model):
     profile_url = models.URLField()
 
     def __str__(self):
-        return f"{self.user.name} on {self.platform}"
+        return f"{self.user.username} on {self.platform}"
     
 class UserQRCode(models.Model):
     user = models.OneToOneField('users.UserProfile', on_delete=models.CASCADE, related_name='qr_code')
-    qr_code_image = models.ImageField(upload_to='user_qr_codes/')
+    qr_code_image = models.ImageField(upload_to='qr_codes/')
 
     def __str__(self):
         return f"QR Code for {self.user.username}"
@@ -35,6 +35,9 @@ class EventEnrollment(models.Model):
     event = models.ForeignKey('events.Eventdetails', on_delete=models.CASCADE, related_name='enrollments')
     enrolled_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('user', 'event')
+
     def __str__(self):
-        return f"{self.user.name} enrolled in {self.event.event_name}"
+        return f"{self.user.username} enrolled in {self.event.event_name}"
     

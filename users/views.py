@@ -13,7 +13,7 @@ def home(request):
     if User.role == "user":
         return redirect('mainusers:user_dashboard')
     elif User.role == "organiser":
-        return redirect('event_dashboard')
+        return redirect('events:event_dashboard')
 
     return render(request, 'users/home.html', {'user': User})
 

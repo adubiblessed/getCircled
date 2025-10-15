@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
-from .models import Eventdetails
+from .models import Eventdetails, Anouncement
 from .forms import EventForm
 
 
@@ -25,6 +26,22 @@ def create_event(request):
     return render(request, 'events/create_event.html', {'form': form})
 
 
-def load_events(request):
-    events = Eventdetails.objects.all()
-    return render(request, 'partials/event_card.html', {'events': events})
+# def load_events(request):
+#     events = Eventdetails.objects.all()
+#     return render(request, 'partials/event_card.html', {'events': events})
+
+
+def event_details(request, event_id):
+    event = get_object_or_404(Eventdetails, id=event_id)
+    
+    return render(request, 'events/event_details.html', {'event': event})
+
+def make_announcement(request, event_id):
+    event = get_object_or_404(Eventdetails, id=event_id)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        message = request.POST.get('message')
+        if title and message:
+            Anouncement.objects.create(event=event, title=title, message=message)
+            return redirect('events:event_details', event_id=event.id)
+    return render(request, 'events/make_announcement.html', {'event': event})

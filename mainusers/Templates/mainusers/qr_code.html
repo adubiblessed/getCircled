@@ -1,0 +1,7 @@
+{% if profile.qr_code %}
+    <img src="{{ profile.qr_code.qr_code_image.url }}" alt="QR Code">
+
+    <a href="{{ profile.qr_code.qr_code_image.url }}" download>Download QR Code</a>
+{% else %}
+    <p>No QR code yet.</p>
+{% endif %}

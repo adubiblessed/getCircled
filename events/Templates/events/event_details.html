@@ -1,0 +1,16 @@
+<h1> hello </h1>
+<h2> {{ event.event_name }} </h2>
+<p> {{ event.description }} </p>
+
+
+
+<div> 
+    <h3> list of attendees</h3>
+    <ul>
+        {% for attendee in event.enrollments.all %}
+            <li>{{ attendee.user.username }} (Enrolled at: {{ attendee.enrolled_at }})</li>
+        {% empty %}
+            <li>No attendees yet.</li>
+        {% endfor %}
+    </ul>
+</div>
