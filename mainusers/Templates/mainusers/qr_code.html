@@ -1,7 +1,31 @@
-{% if profile.qr_code %}
-    <img src="{{ profile.qr_code.qr_code_image.url }}" alt="QR Code">
-
-    <a href="{{ profile.qr_code.qr_code_image.url }}" download>Download QR Code</a>
-{% else %}
-    <p>No QR code yet.</p>
-{% endif %}
+<div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+    <h2 class="text-2xl font-bold text-blue-dark mb-6">QR Code</h2>
+    
+    {% if profile.qr_code %}
+        <div class="flex flex-col items-center space-y-6">
+            <!-- QR Code Image -->
+            <div class="bg-blue-lightest p-6 rounded-lg border-2 border-blue-light">
+                <img src="{{ profile.qr_code.qr_code_image.url }}" 
+                     alt="QR Code" 
+                     class="w-64 h-64 object-contain">
+            </div>
+            
+            <!-- Download Button -->
+            <a href="{{ profile.qr_code.qr_code_image.url }}" 
+               download 
+               class="bg-blue-primary text-white px-6 py-3 rounded font-semibold hover:bg-blue-dark transition-colors duration-200 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Download QR Code
+            </a>
+        </div>
+    {% else %}
+        <div class="text-center py-12">
+            <svg class="w-16 h-16 mx-auto mb-4 text-blue-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+            </svg>
+            <p class="text-gray-400 text-sm">No QR code yet.</p>
+        </div>
+    {% endif %}
+</div>

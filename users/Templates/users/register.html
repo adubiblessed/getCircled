@@ -2,70 +2,23 @@
 <html>
 <head>
     <title>Register</title>
-    <style>
-        /* Help text styling */
-        .helptext {
-            display: block;
-            color: #444;
-            font-size: 0.9rem;
-            background: #f8f8f8;
-            padding: 6px 10px;
-            border-left: 4px solid #007bff;
-            border-radius: 4px;
-            margin-top: 4px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blue-lightest': '#deecfb',
+                        'blue-light': '#bedaf7',
+                        'blue-medium': '#7ab3ef',
+                        'blue-primary': '#368ce7',
+                        'blue-dark': '#1666ba',
+                    }
+                }
+            }
         }
-
-        /* Error styling */
-        .errorlist {
-            background-color: #f8d7da;
-            border: 1px solid #f1aeb5;
-            border-radius: 4px;
-            padding: 8px 12px;
-            margin: 5px 0;
-            list-style: none;
-            color: #721c24;
-        }
-
-        .errorlist li {
-            margin: 0;
-            padding: 2px 0;
-        }
-
-        /* Field with error styling */
-        .field-error input, .field-error select, .field-error textarea {
-            border-color: #dc3545;
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-        }
-
-        /* Form styling */
-        form p {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 30%;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        /* Success message */
-        .success-message {
-            background-color: #d1edff;
-            border: 1px solid #b6d7ff;
-            border-radius: 4px;
-            padding: 8px 12px;
-            margin: 10px 0;
-            color: #0c5460;
-        }
-
+    </script>
+    <style type="text/tailwindcss">
         /* Switch styling for organiser checkbox */
         .switch {
             position: relative;
@@ -104,7 +57,7 @@
         }
 
         input:checked + .slider {
-            background-color: #2196F3;
+            background-color: #368ce7;
         }
 
         input:checked + .slider:before {
@@ -118,155 +71,151 @@
         .slider.round:before {
             border-radius: 50%;
         }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
-<body>
-    <h1>Register</h1>
-    
-    <form method="post">
-        {% csrf_token %}
+<body class="bg-blue-lightest min-h-screen p-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-blue-dark mb-6">Register</h1>
         
-        <!-- Display non-field errors (general form errors) -->
-        {% if form.non_field_errors %}
-            <div class="errorlist">
-                {{ form.non_field_errors }}
-            </div>
-        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Display non-field errors (general form errors) -->
+            {% if form.non_field_errors %}
+                <div class="bg-red-100 border border-red-300 rounded px-3 py-2 my-2 text-red-800">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-        <!-- Display success messages if any -->
-        {% if messages %}
-            {% for message in messages %}
-                <div class="success-message">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-
-        <!-- First Name Field -->
-        <p {% if form.first_name.errors %}class="field-error"{% endif %}>
-            {{ form.first_name.label_tag }}
-            {{ form.first_name }}
-            {% if form.first_name.errors %}
-                <ul class="errorlist">
-                    {% for error in form.first_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.first_name.help_text %}
-                <div class="helptext">{{ form.first_name.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Last Name Field -->
-        <p {% if form.last_name.errors %}class="field-error"{% endif %}>
-            {{ form.last_name.label_tag }}
-            {{ form.last_name }}
-            {% if form.last_name.errors %}
-                <ul class="errorlist">
-                    {% for error in form.last_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.last_name.help_text %}
-                <div class="helptext">{{ form.last_name.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Phone Number Field -->
-        <p {% if form.phone_no.errors %}class="field-error"{% endif %}>
-            {{ form.phone_no.label_tag }}
-            {{ form.phone_no }}
-            {% if form.phone_no.errors %}
-                <ul class="errorlist">
-                    {% for error in form.phone_no.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.phone_no.help_text %}
-                <div class="helptext">{{ form.phone_no.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Email Field -->
-        <p {% if form.email.errors %}class="field-error"{% endif %}>
-            {{ form.email.label_tag }}
-            {{ form.email }}
-            {% if form.email.errors %}
-                <ul class="errorlist">
-                    {% for error in form.email.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.email.help_text %}
-                <div class="helptext">{{ form.email.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Password 1 Field -->
-        <p {% if form.password1.errors %}class="field-error"{% endif %}>
-            {{ form.password1.label_tag }}
-            {{ form.password1 }}
-            {% if form.password1.errors %}
-                <ul class="errorlist">
-                    {% for error in form.password1.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.password1.help_text %}
-                <div class="helptext">{{ form.password1.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Password 2 Field -->
-        <p {% if form.password2.errors %}class="field-error"{% endif %}>
-            {{ form.password2.label_tag }}
-            {{ form.password2 }}
-            {% if form.password2.errors %}
-                <ul class="errorlist">
-                    {% for error in form.password2.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.password2.help_text %}
-                <div class="helptext">{{ form.password2.help_text }}</div>
-            {% endif %}
-        </p>
-
-        <!-- Organiser Checkbox -->
-        <label class="switch">
-            {{ form.is_organiser }}
-            <span class="slider round"></span> I am an organiser
-        </label>
-        {% if form.is_organiser.errors %}
-            <ul class="errorlist">
-                {% for error in form.is_organiser.errors %}
-                    <li>{{ error }}</li>
+            <!-- Display success messages if any -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bg-blue-lightest border border-blue-light rounded px-3 py-2 my-2 text-blue-dark">{{ message }}</div>
                 {% endfor %}
-            </ul>
-        {% endif %}
+            {% endif %}
 
-        <div>
-            <button type="submit">Register</button>
-        </div>
-    </form>
+            <!-- First Name Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.first_name.label }}</label>
+                <input type="text" name="first_name" value="{{ form.first_name.value|default:'' }}" 
+                       class="w-full px-3 py-2 border {% if form.first_name.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.first_name.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.first_name.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.first_name.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.first_name.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Last Name Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.last_name.label }}</label>
+                <input type="text" name="last_name" value="{{ form.last_name.value|default:'' }}" 
+                       class="w-full px-3 py-2 border {% if form.last_name.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.last_name.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.last_name.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.last_name.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.last_name.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.phone_no.label }}</label>
+                <input type="text" name="phone_no" value="{{ form.phone_no.value|default:'' }}" 
+                       class="w-full px-3 py-2 border {% if form.phone_no.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.phone_no.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.phone_no.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.phone_no.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.phone_no.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.email.label }}</label>
+                <input type="email" name="email" value="{{ form.email.value|default:'' }}" 
+                       class="w-full px-3 py-2 border {% if form.email.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.email.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.email.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.email.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.email.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Password 1 Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.password1.label }}</label>
+                <input type="password" name="password1" 
+                       class="w-full px-3 py-2 border {% if form.password1.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.password1.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.password1.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.password1.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.password1.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Password 2 Field -->
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700">{{ form.password2.label }}</label>
+                <input type="password" name="password2" 
+                       class="w-full px-3 py-2 border {% if form.password2.errors %}border-red-500 shadow-red-200{% else %}border-gray-300{% endif %} rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent">
+                {% if form.password2.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.password2.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.password2.help_text %}
+                    <div class="block text-gray-600 text-sm bg-blue-lightest px-3 py-2 border-l-4 border-blue-primary rounded mt-1">{{ form.password2.help_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Organiser Checkbox -->
+            <div class="mb-6">
+                <label class="switch">
+                    {{ form.is_organiser }}
+                    <span class="slider round"></span>
+                </label>
+                <span class="ml-2 text-gray-700">I am an organiser</span>
+                {% if form.is_organiser.errors %}
+                    <ul class="bg-red-100 border border-red-300 rounded px-3 py-2 mt-1 list-none text-red-800 text-sm">
+                        {% for error in form.is_organiser.errors %}
+                            <li class="my-0 py-0">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div>
+                <button type="submit" class="bg-blue-primary text-white px-5 py-3 rounded cursor-pointer text-base hover:bg-blue-dark transition-colors duration-200">Register</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -1,25 +1,71 @@
+{% extends 'mainusers/base.html' %}
+
+{% block content %}
 
 <div>
-    <h3>Event Details</h3>
-    <p><strong>Event Name:</strong> {{ event.event_name }}</p>
-    <p><strong>Description:</strong> {{ event.description }}</p>
-    <p><strong>Date:</strong> {{ event.event_date }}</p>
-    <p><strong>Time:</strong> {{ event.event_time }}</p>
-    <p><strong>Location:</strong> {{ event.event_location }}</p>
-    <p><strong>Organiser:</strong> {{ event.organiser.name }}</p>
-    {% if event.event_qr_code %}
-        <p><strong>Event QR Code:</strong></p>
-        <img src="{{ event.event_qr_code.url }}" alt="Event QR Code">
-    {% else %}
-        <p>No QR code available for this event.</p>
-    {% endif %}
+    {% include 'mainusers/partials/navbar.html' %}
+</div>
+
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-6 mb-12">
+    <h3 class="text-3xl font-bold text-blue-dark mb-6">Event Details</h3>
+    
+    <div class="space-y-4 mb-6">
+        <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+            <p class="text-sm font-semibold text-gray-600 mb-1">Event Name</p>
+            <p class="text-lg text-gray-800">{{ event.event_name }}</p>
+        </div>
+        
+        <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+            <p class="text-sm font-semibold text-gray-600 mb-1">Description</p>
+            <p class="text-lg text-gray-800">{{ event.description }}</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+                <p class="text-sm font-semibold text-gray-600 mb-1">Date</p>
+                <p class="text-lg text-gray-800">{{ event.event_date }}</p>
+            </div>
+            
+            <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+                <p class="text-sm font-semibold text-gray-600 mb-1">Time</p>
+                <p class="text-lg text-gray-800">{{ event.event_time }}</p>
+            </div>
+        </div>
+        
+        <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+            <p class="text-sm font-semibold text-gray-600 mb-1">Location</p>
+            <p class="text-lg text-gray-800">{{ event.event_location }}</p>
+        </div>
+        
+        <div class="border-l-4 border-blue-primary bg-blue-lightest p-4 rounded">
+            <p class="text-sm font-semibold text-gray-600 mb-1">Organiser</p>
+            <p class="text-lg text-gray-800">{{ event.organiser.name }}</p>
+        </div>
+    </div>
+
+    <div class="border-t border-gray-200 pt-6 mb-6">
+        {% if event.event_qr_code %}
+            <p class="text-lg font-semibold text-gray-700 mb-3">Event QR Code</p>
+            <div class="flex justify-center">
+                <img src="{{ event.event_qr_code.url }}" alt="Event QR Code" class="border-4 border-blue-light rounded-lg shadow-md max-w-xs">
+            </div>
+        {% else %}
+            <p class="text-gray-500 italic text-center">No QR code available for this event.</p>
+        {% endif %}
+    </div>
 
     {% if is_enrolled %}
-        <p>You are already enrolled in this event.</p>
+        <div class="bg-blue-light border border-blue-medium rounded px-4 py-3 text-blue-dark text-center">
+            <p class="font-semibold">You are already enrolled in this event.</p>
+        </div>
     {% else %}
-        <form method="post">
+        <form method="post" class="text-center">
             {% csrf_token %}
-            <button type="submit">Enroll in Event</button>
+            <button type="submit" class="bg-blue-primary text-white px-6 py-3 rounded cursor-pointer text-base font-semibold hover:bg-blue-dark transition-colors duration-200">
+                Enroll in Event
+            </button>
         </form>
     {% endif %}
 </div>
+
+{% endblock %}

@@ -1,10 +1,51 @@
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js"></script>
+{% extends 'mainusers/base.html' %}
 
-<h1> user</h1>
+{% block content %}
 
-<div id="announcement-list" hx-get="{% url 'mainusers:load_anouncement' %}" hx-trigger="every 1s">
-    Loading events...
-</div> 
+<div>
+    {% include 'mainusers/partials/navbar.html' %}
+</div>
 
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-dark mb-2">Dashboard</h1>
+        <p class="text-gray-600">Welcome back, {{ user.first_name }}! Here's what's happening today.</p>
+    </div>
 
-{% comment %} {% include 'mainusers/partials/annoucement.html' with announcement=announcements %} {% endcomment %}
+    <!-- Dashboard Content -->
+    <div id="dashboard"
+         hx-get="{% url 'mainusers:load_dashboard' %}"
+         hx-trigger="load, every 5s"
+         hx-swap="innerHTML"
+         class="space-y-8">
+        <!-- Loading State -->
+        <div class="bg-white rounded-lg shadow-lg p-12">
+            <div class="flex flex-col items-center justify-center">
+                <div class="relative w-16 h-16 mb-4">
+                    <div class="absolute top-0 left-0 w-full h-full border-4 border-blue-lightest rounded-full"></div>
+                    <div class="absolute top-0 left-0 w-full h-full border-4 border-blue-primary rounded-full border-t-transparent animate-spin"></div>
+                </div>
+                <p class="text-blue-medium font-semibold text-lg">Loading dashboard...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("visibilitychange", function() {
+        const dashboard = htmx.find("#dashboard");
+
+        if (!dashboard) return;
+
+        if (document.hidden) {
+            dashboard.removeAttribute("hx-trigger");
+            console.log("Paused dashboard updates");
+        } else {
+            dashboard.setAttribute("hx-trigger", "every 5s");
+            console.log("Resumed dashboard updates");
+        }
+    });
+</script>
+{% endblock %}
