@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Event Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blue-lightest': '#deecfb',
+                        'blue-light': '#bedaf7',
+                        'blue-medium': '#7ab3ef',
+                        'blue-primary': '#368ce7',
+                        'blue-dark': '#1666ba',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-blue-lightest min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md border-b-2 border-blue-primary">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo/Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-primary rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-blue-dark">GetCircled</span>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="flex items-center space-x-6">
+                    <a href="{% url 'events:event_dashboard' %}" class="text-gray-600 hover:text-blue-primary transition-colors font-medium">Dashboard</a>
+                    <a href="{% url 'events:create_event' %}" class="text-gray-600 hover:text-blue-primary transition-colors font-medium">Create Event</a>
+                    {% comment %} <a href="{% url 'events:event_details' event.id %}" class="text-gray-600 hover:text-blue-primary transition-colors font-medium">Event Details</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.10/dist/htmx.min.js"></script>
+</body>
+</html>

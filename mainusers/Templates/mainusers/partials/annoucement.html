@@ -1,9 +1,9 @@
 <div class="space-y-6">
     <h2 class="text-2xl md:text-3xl font-bold text-blue-dark">Announcements</h2>
 
-    {% if announcement %}
+    {% if announcements %}
         <div class="space-y-4">
-            {% for each in announcement %}
+            {% for each in announcements %}
                 <div class="bg-blue-lightest border-l-4 border-blue-primary rounded-lg p-5 hover:bg-blue-light transition-colors duration-200">
                     <h3 class="text-lg font-semibold text-blue-dark mb-2">{{ each.title }}</h3>
                     <p class="text-gray-700 text-sm leading-relaxed">{{ each.message }}</p>

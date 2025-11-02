@@ -8,8 +8,9 @@ from .forms import EventForm
 
 
 def event_dashboard(request):
+    user = request.user
     eventlist = Eventdetails.objects.all()
-    return render(request, 'events/dashboard.html',{'eventlist': eventlist})
+    return render(request, 'events/dashboard.html',{'eventlist': eventlist, 'user': user})
 
 def create_event(request):
     if request.method == 'POST':
@@ -41,6 +42,7 @@ def make_announcement(request, event_id):
     if request.method == 'POST':
         title = request.POST.get('title')
         message = request.POST.get('message')
+        print(request.POST)
         if title and message:
             Anouncement.objects.create(event=event, title=title, message=message)
             return redirect('events:event_details', event_id=event.id)

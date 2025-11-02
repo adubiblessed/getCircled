@@ -1,16 +1,68 @@
-<h1> hello </h1>
-<h2> {{ event.event_name }} </h2>
-<p> {{ event.description }} </p>
+{% extends "events/base.html" %}
 
+{% block content %}
 
-
-<div> 
-    <h3> list of attendees</h3>
-    <ul>
-        {% for attendee in event.enrollments.all %}
-            <li>{{ attendee.user.username }} (Enrolled at: {{ attendee.enrolled_at }})</li>
-        {% empty %}
-            <li>No attendees yet.</li>
-        {% endfor %}
-    </ul>
+<!-- Event Header -->
+<div class="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+    <h1 class="text-3xl md:text-4xl font-bold text-blue-dark mb-3">{{ event.event_name }}</h1>
+    <p class="text-gray-600 leading-relaxed">{{ event.description }}</p>
 </div>
+
+<!-- Event Details Section -->
+ <div>
+    <!-- list all details about event -->
+    {% include 'events/event_information.html' %}
+ </div>
+
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Attendees List (Takes 2 columns) -->
+    <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-2xl font-bold text-blue-dark">Attendees</h3>
+            <span class="bg-blue-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                {{ event.enrollments.all|length }}
+            </span>
+        </div>
+        
+        {% if event.enrollments.all %}
+            <div class="space-y-3 max-h-96 overflow-y-auto">
+                {% for attendee in event.enrollments.all %}
+                    <div class="border-l-2 border-blue-primary bg-blue-lightest rounded p-4 hover:bg-blue-light transition-colors duration-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-medium rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-blue-dark">{{ attendee.user.username }}</p>
+                                    <p class="text-xs text-gray-500">Enrolled: {{ attendee.enrolled_at|date:"M d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-12">
+                <svg class="w-16 h-16 mx-auto mb-4 text-blue-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <p class="text-gray-400">No attendees yet.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Announcement Box (Sticky Sidebar - Takes 1 column) -->
+    <div class="lg:col-span-1">
+        <div class="sticky top-6">
+            {% include 'events/make_announcement.html'  %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

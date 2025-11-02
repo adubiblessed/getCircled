@@ -1,8 +1,105 @@
-<form method='post' enctype="multipart/form-data">
-    {% csrf_token %}
+{% extends 'events/base.html' %}
+{% block content %}
 
-    <p> {{form.as_p}}</p>
+<div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-blue-dark mb-6">Create New Event</h2>
+    
+    <form method='post' enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
 
-    <button type="submit">Create Event</button>
+        <!-- Display non-field errors -->
+        {% if form.non_field_errors %}
+            <div class="bg-red-100 border border-red-300 rounded px-4 py-3 text-red-800">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
 
-</form>
+        {% for field in form %}
+            <div>
+                <!-- Label -->
+                <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                        <span class="text-red-500">*</span>
+                    {% endif %}
+                </label>
+
+                <!-- Input Field -->
+                {% if 'CheckboxInput' in field.field.widget|stringformat:"s" %}
+                    <div class="flex items-center gap-2">
+                        {{ field }}
+                        <span class="text-sm text-gray-600">{{ field.help_text }}</span>
+                    </div>
+                {% elif 'FileInput' in field.field.widget|stringformat:"s" or 'ImageField' in field.field.widget|stringformat:"s" %}
+                    {{ field }}
+                {% elif 'Textarea' in field.field.widget|stringformat:"s" %}
+                    {% with field_class="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent resize-none" %}
+                        {% if field.errors %}
+                            <textarea name="{{ field.name }}" 
+                                      id="{{ field.id_for_label }}"
+                                      rows="4"
+                                      class="{{ field_class }} border-red-500"
+                                      {% if field.field.required %}required{% endif %}>{{ field.value|default:'' }}</textarea>
+                        {% else %}
+                            <textarea name="{{ field.name }}" 
+                                      id="{{ field.id_for_label }}"
+                                      rows="4"
+                                      class="{{ field_class }} border-gray-300"
+                                      {% if field.field.required %}required{% endif %}>{{ field.value|default:'' }}</textarea>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    {% with field_class="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-primary focus:border-transparent" %}
+                        {% if field.errors %}
+                            <input type="{{ field.field.widget.input_type }}" 
+                                   name="{{ field.name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   value="{{ field.value|default:'' }}"
+                                   class="{{ field_class }} border-red-500"
+                                   {% if field.field.required %}required{% endif %}>
+                        {% else %}
+                            <input type="{{ field.field.widget.input_type }}" 
+                                   name="{{ field.name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   value="{{ field.value|default:'' }}"
+                                   class="{{ field_class }} border-gray-300"
+                                   {% if field.field.required %}required{% endif %}>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+
+                <!-- Help Text -->
+                {% if field.help_text and 'CheckboxInput' not in field.field.widget|stringformat:"s" %}
+                    <p class="text-xs text-gray-500 mt-1">{{ field.help_text }}</p>
+                {% endif %}
+
+                <!-- Errors -->
+                {% if field.errors %}
+                    <ul class="mt-2 text-sm text-red-600 list-none">
+                        {% for error in field.errors %}
+                            <li class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ error }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+            <button type="submit" 
+                    class="w-full bg-blue-primary text-white px-6 py-3 rounded font-semibold hover:bg-blue-dark transition-colors duration-200 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Create Event
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

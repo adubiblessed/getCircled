@@ -27,11 +27,13 @@ def load_dashboard(request):
 
     events = Eventdetails.objects.all()
     enrolled_events = Eventdetails.objects.filter(enrollments__user=profile)
-    # print(enrolled_events)
+
     announcements = []
     for event in enrolled_events:
         announcements.extend(event.announcements.all())
     announcements.sort(key=lambda x: x.created_at, reverse=True)
+    # print(announcements)
+    # print(enrolled_events)
     
     return render(request, 
                     'mainusers/partials/dashboard.html', 
