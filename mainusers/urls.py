@@ -12,7 +12,8 @@ from .views import (user_dashboard,
                     # load_anouncement,
                     # load_connection,
                     # load_event
-                    event_list
+                    event_list,
+                    chat
                     )
 
 
@@ -28,4 +29,5 @@ urlpatterns = [
     
     path('connections/<int:connection_id>/<str:action>/', respond_to_connection, name='respond_to_connection'),
     path('event_list/', event_list, name='event_list'),
+    path('chat/', chat, name='chat'),
 ]

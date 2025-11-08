@@ -150,3 +150,6 @@ def event_list(request):
 #     profile = get_object_or_404(UserProfile, user=request.user)
 #     enrolled_events = Eventdetails.objects.filter(enrollments__user=profile)
 #     return render(request, 'mainusers/partials/event_card.html', {'events': enrolled_events})
+
+def chat(request):
+    return render(request, 'mainusers/chat/chat.html', {})
